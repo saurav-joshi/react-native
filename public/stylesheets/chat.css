@@ -1,0 +1,204 @@
+body > .container {
+	padding: 50px 0 50px 0;
+	background-color: #EDF1F2;
+}
+.container {
+	padding-left: 0;
+	padding-right: 0;
+}
+.container .text-muted {
+	margin: 20px 0;
+}
+.msg_container_base{
+  margin: 50px 0;
+  padding: 0 10px 10px;
+  overflow-x:hidden;
+  background-color: #EDF1F2;
+}
+.msg_receive{
+    padding-left:0;
+    margin-left:0;
+    background-color: white;
+    border-radius: 0 10px 10px 0 !important;
+    float: left;
+}
+.msg_sent{
+    margin-right:0;
+    float: right;
+    background-color: #0071B6;
+    color: white;
+    border-radius: 10px 0 0 10px !important;
+}
+.messages {
+  padding: 10px;
+  border-radius: 2px;
+  max-width:80%;
+  display: table-cell;
+  vertical-align: top;
+  min-height: 50px;
+}
+.messages > p {
+    font-size: 15px;
+    margin: 0 0 0.2rem 0;
+    padding-right: 10px;
+}
+.messages > time {
+    font-size: 11px;
+    color: #ccc;
+}
+.messages_wrapper {
+	display: table;
+	width: 100%;
+}
+.msg_container {
+    padding: 10px 0 10px 0;
+    overflow: hidden;
+    display: flex;
+}
+.avatar img {
+    display: block;
+    max-height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
+.avatar {
+    position: relative;
+    display: table-cell;
+    width: 80px;
+    vertical-align: middle;
+}
+.avatar > * {
+  vertical-align: middle;
+}
+.avatar_sender {
+	background-color: #0071B6;
+	border-left: 1px dotted white;
+}
+.avatar_receive {
+	background-color: white;
+	border-right: 1px dotted #0071B6;
+}
+.base_sent {
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.msg_sent > time{
+    float: right;
+}
+
+.msg_container_base::-webkit-scrollbar-track
+{
+    background-color: #F5F5F5;
+}
+
+.msg_container_base::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.msg_container_base::-webkit-scrollbar-thumb
+{
+    background-color: #555;
+}
+
+.btn-group.dropup{
+    position:fixed;
+    left:0px;
+    bottom:0;
+}
+
+/* Carousel base class */
+.carousel {
+  height: 340px;
+  margin-bottom: 0px;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 10;
+  top: 0;
+  padding-top: 0px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+  height: 340px;
+}
+
+.carousel-control.left {
+	background-image: none;
+}
+
+.carousel-control.right {
+	background-image: none;
+}
+
+.carousel-indicators li {
+	border: 1px solid gray;
+}
+
+.carousel-indicators .active {
+	background-color: gray;
+}
+
+.carousel-inner > .item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 300px;
+}
+.carousel-indicators .active {
+	height: 11px;
+	width: 11px;
+}
+@media (min-width: 768px) {
+  .carousel-caption p {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+.restaurant-detail img {
+    width: 100%;
+}
+.restaurant-detail .menu {
+    color: #27C2FF;
+    font-weight: bold;
+    font-size: 16px;
+}
+.restaurant-detail .menu td {
+    padding: 10px;
+}
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: left;
+  color: gray;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+  font-size: 20px;
+}
+.rating > span:hover,
+.rating > span:hover ~ span {
+  color: transparent;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+   left: 0;
+   color: gold; 
+}
+.content-editable {
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	padding: 0 5px 0 5px;
+}
