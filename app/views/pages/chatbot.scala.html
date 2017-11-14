@@ -1,0 +1,137 @@
+@(hasGEO: Boolean, apiUrl: String)
+
+@main {
+<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/chat.css")'>
+<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/emoji.css")'>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/emoji.min.js")'></script>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/jquery.emoji.js")'></script>
+	<!-- Fixed header navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">    
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" style="margin-right: 25px;">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="javascript:void(0);" onclick="gotoPage('/')" style="color: black; padding-left: 30px;">#IaaSimov</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
+            <li class="active" style="padding-left: 10px;"><a href="javascript:void(0);" onclick="gotoPage('/logout')">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!-- Begin page content -->
+    <div class="container">
+        <div class="panel-body msg_container_base" id="container_bubble"><img alt="loading" src="/assets/images/loading.gif"></div>
+    </div>
+	<!-- Fixed footer navbar -->
+	<footer class="navbar-default navbar-fixed-bottom" style="border-top: 1px solid #e7e7e7;">
+	  <div class="container" style="padding: 10px;">
+         <div class="form-group">
+           <input type="text" id="message-text" placeholder="Ask a question" class="form-control" style="float: left; width: 80%; margin-right: 10px;">
+           <button class="btn btn-success" id="btn-send" style="float: left;" onclick="sendQuestion(-1,-1)">Send</button>
+         </div>
+	  </div>
+	</footer>
+<script type="text/javascript">
+var hasGEO = @hasGEO;
+var apiUrl = "@apiUrl";
+var i = 0;
+var isClickShareLocation = false;
+//if (!hasGEO) {
+	if (!navigator.geolocation){
+		console.log("Geolocation is not supported by your browser");
+	}
+
+	function successGEO(position) {
+		if (isClickShareLocation == true) {
+			$('#message-text').prop('disabled', true);
+			$('#btn-send').prop('disabled', true);
+			i++;
+			var html = "";
+			html += '<div class="row msg_container base_receive">';
+			html += '<div class="messages_wrapper">';
+			html += '<div class="avatar avatar_receive">';
+			html += '<img src="/assets/images/img/iaasimov.png" class="img-responsive">';
+			html += '</div>';
+			html += '<div class="messages msg_receive">';
+			html += '<p id="analysing-id-'+i+'">'+(itemswait[Math.floor(Math.random()*itemswait.length)])+'&nbsp;<img src="../assets/images/loading.gif"></p>';
+			html += '</div>';
+			html += '</div>';
+			html += '</div>';
+			$('#container_bubble').append(html); 
+			gotoBottom();
+		}
+		var latitude  = position.coords.latitude;
+		var longitude = position.coords.longitude;
+		$.ajax({
+            url: "/user/retrievelatlon",
+            data: { lat: latitude, lon: longitude, isClickShare: isClickShareLocation, pid: i , rid: -1, bookOpt: -1, question: "" },
+            dataType: "json",
+            type: "POST",
+            success: function(data) {
+            	if (isClickShareLocation == true) {
+            		isClickShareLocation = false;
+            		generateResponseData(data);
+            	}
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            	handleErr();
+            }
+        });
+	};
+
+	function errorGEO(err) {
+		console.log("Unable to retrieve your location");
+	};
+	navigator.geolocation.getCurrentPosition(successGEO, errorGEO);
+	
+	//getLatLon();
+	function getLatLon() {
+		if (isClickShareLocation == true) {
+			$('#message-text').prop('disabled', true);
+			$('#btn-send').prop('disabled', true);
+			i++;
+			var html = "";
+			html += '<div class="row msg_container base_receive">';
+			html += '<div class="messages_wrapper">';
+			html += '<div class="avatar avatar_receive">';
+			html += '<img src="/assets/images/img/iaasimov.png" class="img-responsive">';
+			html += '</div>';
+			html += '<div class="messages msg_receive">';
+			html += '<p id="analysing-id-'+i+'">'+(itemswait[Math.floor(Math.random()*itemswait.length)])+'&nbsp;<img src="../assets/images/loading.gif"></p>';
+			html += '</div>';
+			html += '</div>';
+			html += '</div>';
+			$('#container_bubble').append(html); 
+			gotoBottom();
+		}
+		$.getJSON("https://ipinfo.io", function(ipinfo){
+			var latLong = ipinfo.loc.split(",");
+			var position = {
+					"coords": {
+						"latitude": latLong[0],
+						"longitude": latLong[1]
+					}
+			};
+			successGEO(position);
+		});
+	}
+//}
+var emoji = new EmojiConvertor();
+emoji.img_sets = {
+	'apple'    : {'path' : '/assets/images/emoji-data/img-apple-64/'   , 'sheet' : '/assets/images/emoji-data/sheet_apple_64.png',    'mask' : 1 },
+	'google'   : {'path' : '/assets/images/emoji-data/img-google-64/'  , 'sheet' : '/assets/images/emoji-data/sheet_google_64.png',   'mask' : 2 },
+	'twitter'  : {'path' : '/assets/images/emoji-data/img-twitter-64/' , 'sheet' : '/assets/images/emoji-data/sheet_twitter_64.png',  'mask' : 4 },
+	'emojione' : {'path' : '/assets/images/emoji-data/img-emojione-64/', 'sheet' : '/assets/images/emoji-data/sheet_emojione_64.png', 'mask' : 8 }
+};
+emoji.use_sheet = true;
+emoji.init_env();
+</script>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/chat.js")'></script>
+}

@@ -1,0 +1,64 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Map static resources from the /public folder to the /assets URL path
+GET		/assets/*file               				controllers.Assets.at(path="/public", file)
+
+# Start declare actions, methods
+
+# Default path will just redirect to the welcome page
+GET		/                    						controllers.WelcomeAction.welcome()
+POST	/login                 						controllers.WelcomeAction.login()
+GET		/logout                 					controllers.WelcomeAction.logout()
+GET		/demo                 						controllers.WelcomeAction.input()
+
+POST	/customer/login                 			controllers.CustomerLoginAction.login()
+GET		/customer/logout                 			controllers.CustomerLoginAction.logout()
+POST	/customer/request                 			controllers.CustomerLoginAction.requestAccount()
+
+# START ------------------------------------------- Authenticate actions
+POST	/user/retrievelatlon						controllers.ChatbotAction.storeLatLon()
+
+GET		/demo/chatbot								controllers.ChatbotAction.input()
+GET		/chatbot/loadMessages						controllers.ChatbotAction.loadMessages()
+POST	/chatbot/sendQuestion						controllers.ChatbotAction.sendQuestion()
+
+GET		/chatbot/restaurant							controllers.RestaurantDetailAction.input()
+GET		/chatbot/restaurant/:cid/:rid				controllers.RestaurantDetailAction.resInput(cid: Long, rid: String)
+POST	/chatbot/restaurant/like					controllers.ChatbotAction.like()
+
+GET		/dev/api									controllers.DocumentAction.input()
+
+GET		/customer/app								controllers.CustomerAction.input()
+GET		/customer/app/appids						controllers.CustomerAction.getAppIDs()
+POST	/customer/app/create						controllers.CustomerAction.createApp()
+POST	/customer/app/update/:id					controllers.CustomerAction.updateApp(id: Long)
+POST	/customer/app/delete/:id					controllers.CustomerAction.deleteApp(id: Long)
+GET		/customer/app/query/:appId					controllers.CustomerAction.getNoQueryApp(appId: String)
+POST	/customer/updatepassword					controllers.CustomerAction.updatePassword()
+
+GET		/customer/manage							controllers.MemberAction.input()
+GET		/customer/manage/members					controllers.MemberAction.loadMembers()
+POST	/customer/manage/member/add					controllers.MemberAction.addMember()
+POST	/customer/manage/member/update				controllers.MemberAction.updateMember()
+POST	/customer/manage/member/delete/:id			controllers.MemberAction.deleteMember(id: Long)
+GET		/customer/manage/member/query/:cId			controllers.CustomerAction.getNoQueryMember(cId: Long)
+
+GET		/admin										controllers.AdminAction.input()
+GET		/admin/customer/get							controllers.AdminAction.getCustomers()
+GET		/admin/customer/get/:cid					controllers.AdminAction.getCustomerApps(cid: Long)
+POST	/admin/customer/create						controllers.AdminAction.createCustomer()
+POST	/admin/customer/update						controllers.AdminAction.updateCustomer()
+POST	/admin/customer/delete/:id					controllers.AdminAction.deleteCustomer(id: Long)
+GET		/admin/manage/member/query/:parentId		controllers.AdminAction.getNoQueryUser(parentId: Long)
+
+# START ------------------------------------------- hawtbot
+GET		/fb_mayabot									controllers.FBMayabotAction.mayaProcessGetRequest()
+POST	/fb_mayabot									controllers.FBMayabotAction.mayaProcessPostRequest()
+
+GET		/fb_devbot									controllers.FBDevbotAction.devProcessGetRequest()
+POST	/fb_devbot									controllers.FBDevbotAction.devProcessPostRequest()
+
+GET		/fb_quartz									controllers.FBQuartzbotAction.quartzProcessGetRequest()
+POST	/fb_quartz									controllers.FBQuartzbotAction.quartzProcessPostRequest()

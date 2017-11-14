@@ -1,0 +1,181 @@
+@home {
+	<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/popupmodal.css")'>
+	<style>
+	<!--
+	#terms-service-modal .modal-body, #privacy-policy-modal .modal-body{
+	    height: 600px;
+	    overflow-y: auto;
+	}
+	
+	.modal-dialog {
+	  overflow-y: initial !important
+	  margin-top: 0;
+	  margin-bottom: 0;
+	  height: 100vh;
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: center;
+	}
+	
+	.modal.fade .modal-dialog {
+	  transform: translate(0, -100%);
+	}
+	
+	.modal.in .modal-dialog {
+	  transform: translate(0, 0);
+	}
+	
+	.modal-dialog {
+	  margin-top: 0;
+	  margin-bottom: 0;
+	  height: 100vh;
+	  display: -webkit-box;
+	  display: -webkit-flex;
+	  display: -ms-flexbox;
+	  display: flex;
+	  -webkit-box-orient: vertical;
+	  -webkit-box-direction: normal;
+	  -webkit-flex-direction: column;
+	      -ms-flex-direction: column;
+	          flex-direction: column;
+	  -webkit-box-pack: center;
+	  -webkit-justify-content: center;
+	      -ms-flex-pack: center;
+	          justify-content: center;
+	}
+	
+	.modal.fade .modal-dialog {
+	  -webkit-transform: translate(0, -100%);
+	          transform: translate(0, -100%);
+	}
+	.modal.in .modal-dialog {
+	  -webkit-transform: translate(0, 0);
+	          transform: translate(0, 0);
+	}
+	
+	#terms-service-modal #div-forms div {
+		padding: 5px;
+	}
+	
+	#privacy-policy-modal #div-forms div {
+		padding: 5px;
+	}
+	-->
+	</style>
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="javascript:window.location.href='/';">#IaaSimov</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <!-- <a class="page-scroll" href="#about">Demo</a> -->
+                        <a class="page-scroll" href="javascript:window.location.href='/demo/chatbot';">Demo</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading" style="font-weight: normal;">IMAGINE AN A.I ASSISTANT SOLVING YOUR CLOUD QUERIES</h1>
+                <hr style="border-color: #DE862D;">
+                <p style="color: white;">Intelligent, resourceful, indepth knowledge of ORACLE's Cloud Products and gives personalized recommendations in a simple chat interface. The expert: IaaSimov</p>
+				<!--
+                <a href="#" data-toggle="modal" onclick="switchModel(2)" data-target="#login-modal" class="btn btn-primary btn-xl page-scroll" style="background-color: #DE862D">ACCESS TASTEBOT API</a>
+                -->
+            </div>
+        </div>
+    </header>
+
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/popupmodal.js")'></script>
+<script type="text/javascript">
+<!--
+function customerlogin() {
+	if ($("#login_username").val() == "" || $("#login_password").val() == "") {
+		$("#text-login-msg").html("Please enter email and password.");
+		return;
+	}
+	$("#text-login-msg").html("<img src='/assets/images/loading.gif' />");
+	$.ajax({
+	    url: "/customer/login",
+	    data: { email: $("#login_username").val(), password: $("#login_password").val() },
+	    dataType: "json",
+	    type: "POST",
+	    success: function(data) {
+	    	if (data.err) {
+	    		$("#text-login-msg").html(data.err);
+	    	} else {
+	    		window.location.href="/customer/app";
+	    	}
+	    },
+	    error: function (xhr, ajaxOptions, thrownError) {
+	    	handleErr();
+	    }
+	});
+}
+
+function customerRequest() {
+	if ($("#request_company").val() == "") {
+		$("#text-request-msg").html("Please enter your company name.");
+		$("#request_company").focus();
+		return;
+	}
+	if ($("#request_username").val() == "") {
+		$("#text-request-msg").html("Please enter your user name.");
+		$("#request_username").focus();
+		return;
+	}
+	if ($("#request_email").val() == "") {
+		$("#text-request-msg").html("Please enter your email.");
+		$("#request_email").focus();
+		return;
+	}
+	$("#text-request-msg").html("<img src='/assets/images/loading.gif' />");
+	$.ajax({
+	    url: "/customer/request",
+	    data: { company: $("#request_company").val(), username: $("#request_username").val(), email: $("#request_email").val() },
+	    dataType: "json",
+	    type: "POST",
+	    success: function(data) {
+	    	if (data.err) {
+	    		$("#text-request-msg").html(data.err);
+	    	} else {
+	    		$("#text-request-msg").html(data.msg);
+	    	}
+	    },
+	    error: function (xhr, ajaxOptions, thrownError) {
+	    	handleErr();
+	    }
+	});
+}
+
+function switchModel(opt) {
+	if (opt == 1) {
+		$('#register-form').css("display", "none");
+		$('#login-form').css("display", "block");
+	} else {
+		$('#register-form').css("display", "block");
+		$('#login-form').css("display", "none");
+	}
+}
+
+//-->
+var curl = window.location.href;
+if (curl.indexOf("/dev/api") >= 0) {
+	$('#login-modal').modal('show');
+}
+</script>
+}

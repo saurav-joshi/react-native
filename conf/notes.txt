@@ -1,0 +1,17 @@
+POST
+
+application/json
+
+# Getting Started
+
+https://graph.facebook.com/v2.8/358271411215386/thread_settings?access_token=EAAYg6KSwytYBAG4M7Ws4LpLsk8Tcn8xzVfidT5QsTezznKwk9hYz38bhzhRrZBR5xNwMqJtzTVkiB8XwAr5xWZAza0U8daA7v2BZBNiF28kT0gAqckn7huMVJ2rr5qltXx8P8IuSpw6vS8Sm9zGAHTD3W7ERyvGPhXZAiMIw6QZDZD
+
+{"setting_type":"call_to_actions","thread_state":"new_thread","call_to_actions":[{"payload":"GREETING_DEFINED_PAYLOAD"}]}
+
+# Greeting Message
+
+https://graph.facebook.com/v2.8/358271411215386/thread_settings?access_token=EAAYg6KSwytYBAG4M7Ws4LpLsk8Tcn8xzVfidT5QsTezznKwk9hYz38bhzhRrZBR5xNwMqJtzTVkiB8XwAr5xWZAza0U8daA7v2BZBNiF28kT0gAqckn7huMVJ2rr5qltXx8P8IuSpw6vS8Sm9zGAHTD3W7ERyvGPhXZAiMIw6QZDZD
+
+{"setting_type":"greeting","greeting":{"text":"Timeless to find restaurant for the masses."}
+
+    

@@ -1,0 +1,41 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "jenkins",
+      "image": "786350232493.dkr.ecr.us-east-1.amazonaws.com/conversational-demo:latest",
+      "environment": [
+        {
+          "name": "DB_URL",
+          "value": "jdbc:mysql://tastebot.cwo9o3ioyvzi.us-east-1.rds.amazonaws.com:3306/CrayonBot?autoReconnect=true"
+        },
+        {
+          "name": "DB_USER",
+          "value": "tastebot"
+        },
+        {
+          "name": "DB_PASS",
+          "value": "tastebot"
+        },
+        {
+          "name": "TASTEBOT_API",
+          "value": "http://latest-api.us-east-1.elasticbeanstalk.com"
+        },
+         {
+          "name": "CRYPTO_SECRET",
+          "value": "tastebot"
+        }
+      ],
+       "essential": true,
+       "memory": 4000,
+       "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 9000
+        }
+      ]
+      
+    }
+		
+   ]
+}

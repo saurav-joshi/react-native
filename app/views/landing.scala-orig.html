@@ -1,0 +1,577 @@
+@home {
+	<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/popupmodal.css")'>
+	<style>
+	<!--
+	#terms-service-modal .modal-body, #privacy-policy-modal .modal-body{
+	    height: 600px;
+	    overflow-y: auto;
+	}
+	
+	.modal-dialog {
+	  overflow-y: initial !important
+	  margin-top: 0;
+	  margin-bottom: 0;
+	  height: 100vh;
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: center;
+	}
+	
+	.modal.fade .modal-dialog {
+	  transform: translate(0, -100%);
+	}
+	
+	.modal.in .modal-dialog {
+	  transform: translate(0, 0);
+	}
+	
+	.modal-dialog {
+	  margin-top: 0;
+	  margin-bottom: 0;
+	  height: 100vh;
+	  display: -webkit-box;
+	  display: -webkit-flex;
+	  display: -ms-flexbox;
+	  display: flex;
+	  -webkit-box-orient: vertical;
+	  -webkit-box-direction: normal;
+	  -webkit-flex-direction: column;
+	      -ms-flex-direction: column;
+	          flex-direction: column;
+	  -webkit-box-pack: center;
+	  -webkit-justify-content: center;
+	      -ms-flex-pack: center;
+	          justify-content: center;
+	}
+	
+	.modal.fade .modal-dialog {
+	  -webkit-transform: translate(0, -100%);
+	          transform: translate(0, -100%);
+	}
+	.modal.in .modal-dialog {
+	  -webkit-transform: translate(0, 0);
+	          transform: translate(0, 0);
+	}
+	
+	#terms-service-modal #div-forms div {
+		padding: 5px;
+	}
+	
+	#privacy-policy-modal #div-forms div {
+		padding: 5px;
+	}
+	-->
+	</style>
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="javascript:window.location.href='/';">#TasteBot</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <!-- <a class="page-scroll" href="#about">Demo</a> -->
+                        <a class="page-scroll" href="javascript:window.location.href='/demo/chatbot';">Demo</a>
+                    </li>
+                    <li>
+                        <!-- <a class="page-scroll" href="#contact">API</a> -->
+                        <a class="page-scroll" href="javascript:window.location.href='/dev/api';">API</a>
+                    </li>
+                    @defining(play.cache.Cache.get(session.get(com.crayondata.utils.StringConstants.CUSTOMER_UUID) + "-customer").asInstanceOf[com.crayondata.entity.Customer]) { customer =>
+	                    @if(customer != null) {
+	                    	<li>
+				          		<a class="page-scroll" href="javascript:window.location.href='/customer/app';">Dashboard</a>
+	                    	</li>
+	                    }
+	                    <li>
+				          	@if(customer != null) {
+				          		<a class="page-scroll" href="javascript:window.location.href='/customer/logout';">Logout</a>
+				          	} else {
+				          		<a class="page-scroll" href="#" onclick="switchModel(1)" data-toggle="modal" data-target="#login-modal">Login</a>
+				          	}
+	                    </li>
+                    }
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading" style="font-weight: normal;">IMAGINE AN A.I ASSISTANT SOLVING YOUR CLOUD QUERIES</h1>
+                <hr style="border-color: #DE862D;">
+                <p style="color: white;">Intelligent, resourceful, indepth knowledge of ORACLE's Cloud Products and gives personalized recommendations in a simple chat interface. The expert: IaaSimov</p>
+                <a href="#" data-toggle="modal" onclick="switchModel(2)" data-target="#login-modal" class="btn btn-primary btn-xl page-scroll" style="background-color: #DE862D">ACCESS TASTEBOT API</a>
+            </div>
+        </div>
+    </header>
+
+<!--
+    <section class="bg-primary" id="about" style="background-color: #40916F;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">What can you build with TasteBot APIs?</h2>
+                    <hr class="light">
+                    <p class="text-faded" style="color: white;">A chat based AI bot engine that understands what your customers are looking for and delight them with intelligent responses and taste-driven restaurant recommendations. See it for yourself!</p>
+                    <a href="/demo/chatbot" class="page-scroll btn btn-default btn-xl sr-button">See Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">You get it all with TasteBot APIs</h2>
+                    <hr class="primary" style="border-color: #DE862D;">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x text-primary sr-icons"><img alt="" height="80px;" src="/assets/images/img/more_ai.png"></i>
+                        <h3>Intelligence</h3>
+                        <p class="text-muted">A.I. permeates the entire back-end from Natural Language Processing to personalized recommendations and it gets stronger as your chat volume grows.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x text-primary sr-icons"><img alt="" height="80px;" src="/assets/images/img/more_api.png"></i>
+                        <h3>Simple integration</h3>
+                        <p class="text-muted">Developer friendly APIs allow you to focus on frontend development or deployment to FB Messenger. We take care of the heavy lifting.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x text-primary sr-icons"><img alt="" height="80px;" src="/assets/images/img/more_menu.png"></i>
+                        <h3>Dining expertise</h3>
+                        <p class="text-muted">Vast and deep knowledge of dining options in Singapore and getting better and broader each day.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x text-primary sr-icons"><img alt="" height="80px;" src="/assets/images/img/more_search.png"></i>
+                        <h3>So much more than Search</h3>
+                        <p class="text-muted">Tastebot APIs allow you to continuously learn about end users' preferences and personalize dining options based on their tastes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <aside class="bg-dark" style="background-color: #602264;">
+        <div class="container text-center">
+            <div class="call-to-action">
+                <h2>Build your own bot powered by "Taste" today</h2>
+                <a href="/dev/api" class="btn btn-default btn-xl sr-button">Get TasteBot API</a>
+            </div>
+        </div>
+    </aside>
+
+    <section id="contact" style="padding: 10px;">
+        <div class="container">
+            <div class="row">
+            	<div class="col-md-3 col-xs-3 text-left"><b>Powered by</b><br><img class="logo" src="/assets/images/logog.png"></div>
+            	<div class="col-md-6 col-xs-6 text-center"><br>About Us&nbsp;&nbsp;&#9679;&nbsp;&nbsp;FAQ&nbsp;&nbsp;&#9679;&nbsp;&nbsp;<a class="page-scroll" href="#" data-toggle="modal" data-target="#terms-service-modal">Terms of Use</a>&nbsp;&nbsp;&#9679;&nbsp;&nbsp;<a class="page-scroll" href="#" data-toggle="modal" data-target="#privacy-policy-modal">Privacy</a></div>
+            	<div class="col-md-3 col-xs-3 text-right"><br>&copy;2016 Crayon Data</div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <!-- BEGIN # MODAL LOGIN -->
+
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" align="center">
+					<img id="img_logo" src="/assets/images/logog.png">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</div>
+                
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                
+                    <!-- Begin # Login Form -->
+                    <form id="login-form">
+		                <div class="modal-body">
+				    		<div id="div-login-msg">
+                                <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-login-msg">Type your username and password.</span>
+                            </div>
+				    		<input id="login_username" class="form-control" type="text" placeholder="Email" required>
+				    		<input id="login_password" class="form-control" type="password" placeholder="Password" required>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Remember me
+                                </label>
+                            </div>
+        		    	</div>
+				        <div class="modal-footer">
+                            <div>
+                                <button type="submit" onclick="customerlogin()" class="btn btn-primary btn-lg btn-block">Login</button>
+                            </div>
+				    	    <div>
+                                <button id="login_register_btn" type="button" class="btn btn-link">Request An Account</button>
+                            </div>
+				        </div>
+                    </form>
+                    <!-- End # Login Form -->
+                    
+                    <!-- Begin | Register Form -->
+                    <form id="register-form" style="display:none;">
+            		    <div class="modal-body">
+		    				<div id="div-register-msg">
+                                <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-request-msg">Type your information.</span>
+                            </div>
+		    				<input id="request_company" class="form-control" type="text" placeholder="Company" required>
+				    		<input id="request_username" class="form-control" type="text" placeholder="User Name" required>
+				    		<input id="request_email" class="form-control" type="text" placeholder="Email" required>
+            			</div>
+		    		    <div class="modal-footer">
+                            <div>
+                                <button type="button" onclick="customerRequest()" class="btn btn-primary btn-lg btn-block" style="background-color: #de862d;">Send Request</button>
+                            </div>
+                            <div>
+                                <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
+                            </div>
+		    		    </div>
+                    </form>
+                    <!-- End | Register Form -->
+                    
+                </div>
+                <!-- End # DIV Form -->
+                
+			</div>
+		</div>
+	</div>
+    <!-- END # MODAL LOGIN -->
+
+
+    <div class="modal fade" id="terms-service-modal" tabindex="-1" role="dialog" aria-labelledby="Terms of Service" aria-hidden="true" style="display: none;">
+    	<div class="modal-dialog" style="width: 90%;">
+			<div class="modal-content">
+				<div class="modal-header" align="center">
+					<img id="img_logo" src="/assets/images/logog.png">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</div>
+                
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                	<div class="modal-body" style="text-align: justify;">
+	                	<div><h3>Terms of Service</h3></div>
+	                	<div><i>Last Modified: 21 Dec 2016</i></div>
+	                	<div>Welcome to Maya Tastebots (the "Service"), a service of Crayon Data Pte Ltd. ("we", "our", or "us"). We provide online software API(s) (the "Maya Tastebots Platform") that enables developers and other users to build, and deploy BOTS for devices and software applications.</div>
+	                	<div>These Terms of Service (these "Terms") include the legal terms that we require all developers and other users to accept and implement as a condition of accessing our web services located at <a href="http://maya.tastebots.com" target="_blank">http://maya.tastebots.com</a> and other websites owned and/or operated by Maya Tastebots (the "Website(s)"), and/or accessing or using the application programming interfaces provided on or in connection with the Maya Tastebots Platform ("API(s)"), including any documentation, materials, code, data (such as logs as defined below), files (such as AIML and Other Files as defined below) and other information or materials made available to you by Maya Tastebots on or in connection with the APIs (collectively, "Maya Tastebot Content") to develop Bots for use in your products or devices ("Devices") and/or your software applications ("Application(s)").</div>
+	                	<div>The Maya Tastebots Platform includes a developer portal designed to allow you to access, download, and interpret files and data in connection with building, and deploying your Bot (s). Files contained in each Bot may include files written in Artificial Intelligence Markup Language ("AIML Files"), and SETS, MAPS, SUBSTITUTIONS, and SYSTEM files (collectively, "Other Files"). For more information on AIML and Other Files, please see the online <a href="http://maya.tastebots.com" target="_blank">http://maya.tastebots.com</a>. Data may include analytics and bot logs, which may include "Inputs" to, and "Outputs" from, your Bot (s) ("BOTlogs"). "Inputs" are typically text inputs, whether typed or converted from speech utterance or spoken phrase to text, by an individual sent from your Application to Maya Tastebots servers for processing; "Outputs" are the responses returned to your Application by the Maya Tastebots Platform.</div>
+	                	<div>PLEASE READ THESE TERMS CAREFULLY TO ENSURE THAT YOU UNDERSTAND EACH PROVISION. THESE TERMS CONTAIN A MANDATORY INDIVIDUAL ARBITRATION AND CLASS ACTION/JURY TRIAL WAIVER PROVISION THAT REQUIRES THE USE OF ARBITRATION ON AN INDIVIDUAL BASIS TO RESOLVE DISPUTES, RATHER THAN JURY TRIALS OR CLASS ACTIONS.</div>
+	                	<div>Crayondata Pte Ltd reserves the right to make unilateral modifications to these terms and will provide notice of these changes as described below.</div>
+	                	<div>BY USING OR CONTINUING TO USE THE MAYA TASTEBOTS APIS OR BY CLICKING "Sign Up" YOU AGREE TO USE THE MAYA TASTEBOTS APIS AND OTHER MAYA TASTEBOTS CONTENT SOLELY IN ACCORDANCE WITH THESE TERMS OF SERVICE, AND YOU AGREE THAT YOU ARE BOUND BY AND ARE A PARTY TO THESE TERMS. THESE TERMS SUPERCEDES ANY PRIOR AGREEMENTS, WHETHER ORAL OR WRITTEN, BETWEEN THE PARTIES CONCERNING SUCH CLAIMS, AND WILL NOT BE MODIFIED OR AMENDED BY ANY PAST, CONTEMPORANEOUS, OR FUTURE AGREEMENTS OR DEALINGS BETWEEN THE PARTIES, WHETHER ORAL OR WRITTEN. YOU WARRANT THAT YOU ARE AT LEAST EIGHTEEN (18) YEARS OLD AND THAT YOU HAVE THE LEGAL CAPACITY TO AGREE TO AND BE BOUND BY THESE TERMS. IF YOU ACCESS OR USE THE MAYA TASTEBOTS APIS, OTHER MAYA TASTEBOTS CONTENT, OR THE MAYA TASTEBOTS PLATFORM ON BEHALF OF A COMPANY, PRINCIPAL OR OTHER ENTITY, YOU REPRESENT THAT YOU HAVE AUTHORITY TO BIND SUCH ENTITY AND ITS AFFILIATES TO THESE TERMS AND THAT THESE TERMS ARE FULLY BINDING UPON THEM. IN SUCH CASE, THE TERM "YOU" WILL REFER TO YOU AND SUCH ENTITY AND ITS AFFILIATES. IF YOU DO NOT HAVE AUTHORITY, OR IF YOU DO NOT AGREE WITH THESE TERMS OF SERVICE, YOU MAY NOT ACCESS OR USE THE APIS OR OTHER MAYA TASTEBOTS CONTENT.</div>
+	                	<div>&nbsp;&nbsp;1.&nbsp;&nbsp;ACCOUNTS AND REGISTRATION</div>
+	                	<div>&nbsp;&nbsp;2.&nbsp;&nbsp;USE OF MAYA TASTEBOTS CONTENT</div>
+	                	<div>&nbsp;&nbsp;3.&nbsp;&nbsp;PROHIBITIONS</div>
+	                	<div>&nbsp;&nbsp;4.&nbsp;&nbsp;COMPLIANCE</div>
+	                	<div>&nbsp;&nbsp;5.&nbsp;&nbsp;PRIVACY AND SECURITY</div>
+	                	<div>&nbsp;&nbsp;6.&nbsp;&nbsp;DMCA</div>
+	                	<div>&nbsp;&nbsp;7.&nbsp;&nbsp;OWNERSHIP AND LICENSE</div>
+	                	<div>&nbsp;&nbsp;8.&nbsp;&nbsp;UPDATES</div>
+	                	<div>&nbsp;&nbsp;9.&nbsp;&nbsp;BRANDING AND ATTRIBUTION</div>
+	                	<div>&nbsp;&nbsp;10.&nbsp;&nbsp;TERMINATION</div>
+	                	<div>&nbsp;&nbsp;11.&nbsp;&nbsp;NO WARRANTIES</div>
+	                	<div>&nbsp;&nbsp;12.&nbsp;&nbsp;LIMITATION OF LIABILITY</div>
+	                	<div>&nbsp;&nbsp;13.&nbsp;&nbsp;INDEMNIFICATION</div>
+	                	<div>&nbsp;&nbsp;14.&nbsp;&nbsp;OTHER LEGAL TERMS AND CONDITIONS</div>
+	                	<div><h4><b>ACCOUNTS AND REGISTRATION</b></h4></div>
+	                	<div><b>Accounts</b></div>
+	                	<div>
+	                		<ul>
+	                			<li>You need to use a current Maya Tastebots account or create a new Maya Tastebots account in order to use the APIs and other Maya Tastebots Content.</li>
+	                			<li>You may use the Maya Tastebots Content and/or Maya Tastebots Platform only if you can form a binding contract with Maya Tastebots , and only in compliance with these Terms and all applicable local, state, national, and international laws, rules and regulations.</li>
+	                			<li>Any use or access to the Website(s), APIs, or Maya Tastebots Platform by anyone under 18 is strictly prohibited and in violation of these Terms. You must be a human. Accounts registered by "bots"or other automated methods are not permitted.</li>
+	                			<li>You are solely responsible for the activity that occurs on your account, including, without limitation, any Customer Data and Account Information (each as defined below) provided under or through your account.</li>
+	                			<li>You may create a Maya Tastebots account using some existing account credentials or via other registration methods we may provide from time to time, in our sole discretion. By connecting to the Maya Tastebots Platform with a third-party service, you give us permission to access and use your information from that service as permitted by that service, and to store your log-in credentials for that service. It is your responsibility to keep your password, account credentials, and accounts secure. You must notify Maya Tastebots immediately if any unauthorized use, or suspected unauthorized use, of your Maya Tastebots account occurs or if any other breach of security occurs.</li>
+	                			<li>You may never use another user's account without permission. Your login may only be used by one person. A single login shared by multiple individuals is not permitted.</li>
+	                			<li>You acknowledge that Maya Tastebots is not liable for any loss or damage arising from your failure to comply with the above requirements.</li>
+	                		</ul>
+	                	</div>
+	                	<div><b>Registration</b></div>
+	                	<div>
+	                		<ul>
+	                			<li>You may be required to provide certain information (e.g., your contact details, description of your product or service, your company name, your credit card details, etc., collectively, "Account Information") as part of the registration process to access the Maya Tastebots Content, or as part of your continued use of the Maya Tastebots Content.</li>
+	                			<li>You agree that any registration information you give to Maya Tastebots will always be accurate and up to date, and you agree to promptly notify Maya Tastebots of any changes in your Account Information.</li>
+	                		</ul>
+	                	</div>
+	                	<div><h4><b>USE OF MAYA TASTEBOTS CONTENT</b></h4></div>
+	                	<div><b>Right to Access and Use of Maya Tastebots Content.</b></div>
+	                	<div>Subject to these Terms, Maya Tastebots grants you a limited, revocable, non-transferable, non-exclusive, right (without the right to sublicense) to access and use the Maya Tastebots Content and Maya Tastebots Platform, solely to the extent necessary for you to host and create bot (s) that operate solely in connection with your Devices and/or Applications.</div>
+	                	<div><b>Permitted Access.</b></div>
+	                	<div>You will access (or attempt to access) an API or other Maya Tastebots Content only as expressly permitted by these Terms and the means described by Maya Tastebots in the documentation, instructions, or features available based on Your Usage (as defined below).</div>
+	                	<div><b>API Calls.</b></div>
+	                	<div>Maya Tastebots may set limits on the number of API calls that you can make at its sole discretion, for example in the interest of service stability, or, without limiting the foregoing, in accordance with limits based on your free or paid subscription usage ("Your Usage") of the Maya Tastebots Platform. Maya Tastebots may throttle your activity or cease offering you access to the APIs altogether in Maya Tastebots ' sole discretion. You agree to such limitations and will not attempt to circumvent such limitations.</div>
+	                	<div><b>Fees.</b></div>
+	                	<div>Fees, API limits, and access to other features may vary depending on Your Usage. The limits, features, and fees owed for each available paid plan ("Subscription Plan(s)") are set forth at Maya Tastebots ' website www.Maya Tastebots.io and are subject to change without notice. You acknowledge and agree to pay all fees, as due, for the full-term of the subscription, regardless of whether the subscription is cancelled prior to expiration or termination of these Terms. No refunds will be given for any reason, including, but not limited to, unused Services, regardless of whether the subscription is cancelled prior to expiration or termination of these Terms. You must provide Maya Tastebots notice of any billing issues or disputes within fifteen (15) days after they first appear on the statement you receive from your bank, credit card company, or other billing company or invoicing. Failure to notify Maya Tastebots of any billing issues within the fifteen (15) day period will result in your acceptance of the charges and you waive the right to dispute such charges. Failure to pay fully and promptly may result in the deactivation of your account until payment is successfully received.</div>
+	                	<div><b>Open Source Software.</b></div>
+	                	<div>Some of the software offered by or included in the Maya Tastebots Content may be offered under an open source license. There may be provisions in the open source license that expressly override some of these Terms, and in those cases, the overriding provisions apply.</div>
+	                	<div><b>Accuracy.</b></div>
+	                	<div>We do not guarantee the accuracy of any Maya Tastebots Content, including any output generated in connection with your use of the Maya Tastebots Content or Maya Tastebots Platform. You acknowledge and agree that you use and rely on the Maya Tastebots Content and the Maya Tastebots Platform at your own risk, and that Maya Tastebots will not be liable for any errors or inaccuracies of any Maya Tastebots Content or the Maya Tastebots Platform.</div>
+	                	<div><b>Monitoring.</b></div>
+	                	<div>Maya Tastebots may, but is under no obligation to, monitor the use of the Maya Tastebots Content to ensure quality, improve Maya Tastebots products and services, or verify your compliance with these Terms. You will not interfere with such monitoring.</div>
+	                	<div><b>Compliance with Law.</b></div>
+	                	<div>You will use our APIs and other Maya Tastebots Content and the Maya Tastebots Platform only as permitted by law (including without limitation laws regarding the import or export of data or software, privacy, or local laws). You will not use the APIs or other Maya Tastebots Content to encourage or promote illegal or dangerous activity. You also will require any end users of your Devices or Applications ("End Users") to comply with any applicable law and these Terms. You will not knowingly enable your End Users to violate applicable law or these Terms.</div>
+	                	<div><h4><b>PROHIBITIONS</b></h4></div>
+	                	<div>When using any Maya Tastebots Content and/or the Maya Tastebots Platform, unless otherwise approved in writing by Maya Tastebots, the following prohibitions apply:</div>
+	                	<div>
+	                		<ul>
+	                			<li>You will not use the APIs or other Maya Tastebots Content on behalf of any third party, unless such third party has expressly authorized you to access and use the Maya Tastebots Content under its account.</li>
+	                			<li>You will not copy, rent, lease, sell, transfer, assign, sublicense, disassemble, reverse engineer or decompile (except to the limited extent expressly authorized by applicable statutory law), modify or alter any part of the Website(s), APIs, other Maya Tastebots Content, or the Maya Tastebots Platform.</li>
+	                			<li>You will not create an Application that functions substantially the same as the APIs or other Maya Tastebots Content and offer it for use by third parties.</li>
+	                			<li>You will not use the Maya Tastebots Content or Maya Tastebots Platform in connection with any Device or Application that is targeted to children under the age of eighteen (18).</li>
+	                			<li>You will not use the Maya Tastebots Content or Maya Tastebots Platform in connection with providing any adult entertainment oriented or otherwise pornographic services.</li>
+	                			<li>You will not perform an action with the intent of introducing to the Website(s), Maya Tastebots Content, or Maya Tastebots Platform or the applications or products of any third party, any viruses, worms, defects, Trojan horses, malware or any items of a destructive nature.</li>
+	                			<li>You will not use the Maya Tastebots Content or Maya Tastebots Platform, or access or control any customer accounts, products, devices, or applications in a manner that could cause harm, damage, or loss to any individual, or otherwise harm, defame, abuse, harass, stalk or threaten others or allow or encourage any third party to do so.</li>
+	                			<li>You will not use the APIs, other Maya Tastebots Content, or the Maya Tastebots Platform in any manner or for any purpose that may violate any law or regulation, or any right of any person including, but not limited to, intellectual property rights, rights of privacy and/or rights of personality, or which otherwise may be harmful (in Maya Tastebots ' sole discretion) to Maya Tastebots, its service providers, its suppliers, end users of the Maya Tastebots Platform, End Users, or any individual or entity.</li>
+	                			<li>You will not use the APIs, other Maya Tastebots Content, or the Maya Tastebots Platform in connection with any inherently dangerous objects, devices, materials, or situations, or in furtherance of any activities likely to cause harm to any individual or property.</li>
+	                			<li>You will not: (i) interfere with or disrupt the Website(s), Maya Tastebots Platform, the APIs, or the servers or networks providing the APIs; (ii) tamper with the security of the any of the hardware, software or networks used by Maya Tastebots to make the Website(s), Maya Tastebots Content, or Maya Tastebots Platform available or tamper with any customer accounts; (iii) disable, circumvent or avoid any security device, mechanism, protocol or procedure established by Maya Tastebots ; or (iv) permit others to do any of the foregoing.</li>
+	                		</ul>
+	                	</div>
+	                	<div><h4><b>COMPLIANCE</b></h4></div>
+	                	<div>Maya Tastebots reserves the right to investigate any Device or Application for compliance with these Terms. Such investigations may include Maya Tastebots accessing and using your Device or Application, for example to identify stability or security issues that could affect Maya Tastebots or its customers. You consent to any such investigation. Maya Tastebots may immediately suspend or terminate access to the Website(s), APIs, other Maya Tastebots Content, and the Maya Tastebots Platform by you or your Device or Application without notice if we believe, in our sole discretion, that you are in violation of these Terms or otherwise.</div>
+	                	<div><h4><b>PRIVACY AND SECURITY</b></h4></div>
+	                	<div>
+	                		<ul>
+	                			<li>Customer Data. "Customer Data" means any and all information you provide to or through, or is generated in connection with your use of, the Website(s), Maya Tastebots Content, or the Maya Tastebots Platform, including, but not limited to, AIML and Other Files, bot logs, Account Information, and data that relates to any End Users or such End Users' use of your Application ("End User Data"), including, but not limited to, Inputs from an End User sent by your Application to the Maya Tastebots servers for processing. You acknowledge and agree that you are solely responsible for obtaining all required consents from End Users in connection with any use of your Devices or Applications and the Maya Tastebots Content (including the APIs), which consent shall be compliant with all applicable data protection legislation and other privacy laws, rules, and regulations. Before collecting any End User Data or other information from End Users, you will provide adequate notice of what End User Data and other information you collect and how it will be used and/or shared and obtain any necessary consents. You and your Applications will comply with all privacy laws and regulations in connection with your access and use of the Maya Tastebots Content and Maya Tastebots Platform. You will provide and adhere to a privacy policy for your Device or Application that: (i) complies with all applicable laws, rules, and regulations, (ii) is conspicuously displayed to all End Users, and (iii) clearly and accurately describes to End Users what data and user information you collect (such as personally identifiable information, login information, etc.) and how you use and share such information with Maya Tastebots and third parties. You understand that by using the Maya Tastebots Content or Maya Tastebots Platform, you consent to the collection, use, and disclosure of any Customer Data (including personal information and aggregate data) as set forth in our Privacy Policy https://www.Maya Tastebots.io/developer/privacy, and to have Customer Data collected, used, transferred to and processed in the United States. You shall be solely responsible for your Customer Data and the consequences of making it available on or through the Maya Tastebots Content and/or Maya Tastebots Platform.</li>
+	                			<li>Privacy. You understand that by using the Maya Tastebots Content and/or Maya Tastebots Platform you consent to the collection, use and disclosure of your personally identifiable information and Customer Data as set forth in our Privacy Policy  https://www.Maya Tastebots.io/developer/privacy, and to have your personally identifiable information and Customer Data collected, used, transferred to and processed in the United States.</li>
+	                			<li>Security. We care about the integrity and security of your Customer Data and personal information. However, we cannot guarantee that unauthorized third parties will never be able to defeat our security measures or use your personal information for improper purposes. You acknowledge that you are solely responsible for any personal injury or property damage arising from or relating to your use of any Maya Tastebots Content, the Maya Tastebots Platform, or any authorized or unauthorized use of your Device or Application.</li>
+	                		</ul>
+	                	</div>
+	                	<div><h4><b>DMCA</b></h4></div>
+	                	<div>We respect content owner rights; it is Maya Tastebots ' policy to respond to alleged infringement notices that comply with the Digital Millennium Copyright Act of 1998 ("DMCA"), as provided in our DMCA Policy.</div>
+	                	<div><h4><b>OWNERSHIP AND LICENSE</b></h4></div>
+	                	<div><b>Your Bots, Devices, Applications, and Customer Data.</b></div>
+	                	<div>Maya Tastebots does not acquire ownership of your Bots, Devices, Applications, or Customer Data by your use of the APIs or other Maya Tastebots Content. You represent and warrant that you have the necessary rights to provide all Customer Data, including without limitation, End User Data and Account Information, and other information you make available in connection with your use of the Maya Tastebots Content and/or the Maya Tastebots Platform and to grant all rights and licenses under these Terms. Without limiting the foregoing, if you are using the Maya Tastebots Content or Maya Tastebots Platform on behalf of your employer or any third party, you represent and warrant that your employer or such third party has expressly authorized you to make available and use any content, data, or information that you use or make available in connection with your use of the Maya Tastebots Content and/or Maya Tastebots Platform. You further represent and warrant that your Customer Data (including, without limitation, End User Data and Account Information), Applications, and/or Devices, and any use thereof in connection with the Maya Tastebots Content or Maya Tastebots Platform will not violate the rights of any third party, including but not limited to, intellectual property rights, trade secret rights or other proprietary rights, or rights of privacy, or violate any applicable laws, rules, or regulations.</div>
+	                	<div><b>Customer Data Rights and License.</b></div>
+	                	<div>In connection with the operation of the Maya Tastebots Content and Maya Tastebots Platform, Maya Tastebots receives, utilizes, and analyzes Customer Data. You retain ownership of your Customer Data. However, notwithstanding anything to the contrary, you hereby grant Maya Tastebots a license to: (i) use and disclose your Customer Data to provide the Maya Tastebots Content and the Maya Tastebots Platform; (ii) use your Customer Data for Maya Tastebots ' internal business purposes; (iii) disclose your Customer Data as may be required by law or legal process; and (iv) otherwise use and disclose your Customer Data in accordance with the Maya Tastebots Privacy Policy https://www.Maya Tastebots.io/developer/privacy. Without limiting the foregoing, you agree that Maya Tastebots is expressly and irrevocably authorized to utilize, analyze, modify, reproduce, publish, share, create derivative works of, or otherwise exercise all rights in your Customer Data and any analytics, statistics or other data related to or derived from your Customer Data and/or your use of the Maya Tastebots Content or Maya Tastebots Platform for any purpose, provided that such data is in aggregate and anonymized form ("Aggregate Data"). Subject to the Customer Data licenses, you acknowledge and agree that Maya Tastebots will exclusively own all right, title, and interest in and to all Aggregate Data and other output data generated by the Maya Tastebots Platform. Notwithstanding anything to the contrary, if you ever have any ownership interest in any Aggregate Data or output data, you hereby assign to Maya Tastebots all such right, title, and interest in and to such Aggregate Data and output data, including all intellectual property rights therein.</div>
+	                	<div><b>Maya Tastebots Content and Maya Tastebots Platform.</b></div>
+	                	<div>By using our Website(s), APIs, other Maya Tastebots Content, or Maya Tastebots Platform, you do not acquire ownership of any rights in our Website(s), APIs, other Maya Tastebots Content, the Maya Tastebots Platform, or any data, content or information that is transmitted or accessed through our APIs, including without limitation, any Libraries, Bots, AIML code, bot logs, or other data provided by Maya Tastebots or other Maya Tastebots users. Except for your Customer Data, as between you and Maya Tastebots , the Maya Tastebots Content, the Maya Tastebots Platform, and all data, content, and information that is contained in or transmitted or accessed through our APIs and/or the Maya Tastebots Platform, including, without limitation, software, Libraries, Bots, AIML code, machine learning models, images, text, graphics, illustrations, logos, patents, trademarks, service marks, copyrights, photographs, audio, videos, music, and data belonging to other users, and all intellectual property rights related thereto, are the exclusive property of Maya Tastebots and its licensors.</div>
+	                	<div><b>Feedback.</b></div>
+	                	<div>If we receive any feedback, suggestions, ideas, reports, or other information relating to any Maya Tastebots Content or any Maya Tastebots products or services, we may use such information without obligation to you.</div>
+	                	<div><b>Restrictions; Retained Rights.</b></div>
+	                	<div>The Website(s), Maya Tastebots Content, and Maya Tastebots Platform are protected by United States intellectual property laws, including without limitation copyright laws, and international treaty provisions. You will not remove or alter any proprietary notices or marks on any Maya Tastebots Content or the Maya Tastebots Platform. You will not reverse engineer or attempt to extract the source code from any API, other Maya Tastebots Content, the Maya Tastebots Platform, or any related software, except to the extent that this restriction is expressly prohibited by applicable law. You also will not sublicense, lease, rent, loan, distribute, sell, transfer or make available the APIs or other Maya Tastebots Content or the Maya Tastebots Platform to any third party except as specifically permitted by these Terms. Maya Tastebots Content is licensed and not sold. Maya Tastebots reserves all rights not expressly granted in these Terms.</div>
+	                	<div><h4><b>UPDATES</b></h4></div>
+	                	<div>We reserve the right to modify or update the Website(s), Maya Tastebots Content and/or Maya Tastebots Platform at any time, for any reason, and without notice to you. If Maya Tastebots makes updates, revisions, breaking changes or in any way modifies an API or other Maya Tastebots Content, you agree that you are solely responsible for making changes to your Device or Application to ensure continued service for your End Users. We are constantly changing and improving our APIs and other Maya Tastebots Content. We may add or remove functionalities or features at our discretion, for any reason, and we do not guarantee that your Device or Application will function with any future or modified versions of any Maya Tastebots Content or the Maya Tastebots Platform.</div>
+	                	<div><h4><b>BRANDING AND ATTRIBUTION</b></h4></div>
+	                	<div><b>Maya Tastebots Brand.</b></div>
+	                	<div>Except where expressly stated, these Terms do not grant either party any right, title or interest in or to the other party's trade names, trademarks, service marks, logos, domain names, and other distinctive brand features (collectively, "Marks").</div>
+	                	<div><b>Attribution.</b></div>
+	                	<div>You agree to display any at tribution(s) required by Maya Tastebots as described in any documentation for the APIs or other Maya Tastebots Content. Maya Tastebots grants to you a limited, freely revocable, nontransferable, non-sub licenseable, nonexclusive license during the term of your subscription to display Maya Tastebots ' Marks solely for the purpose of promoting or advertising your use of the APIs and other Maya Tastebots Content. You must only use the Maya Tastebots Marks in accordance with these Terms. You understand and agree that Maya Tastebots has the sole discretion to determine whether your attribution(s) and use of Maya Tastebots Marks is in accordance with the above requirements and any applicable guidelines.</div>
+	                	<div><b>Publicity.</b></div>
+	                	<div>You will not make any statement regarding your use of an API that suggests partnership with, sponsorship by or endorsement by Maya Tastebots without Maya Tastebots prior written approval.</div>
+	                	<div><b>Promotional and Marketing Use.</b></div>
+	                	<div>In the course of promoting, marketing, or demonstrating the APIs you are using, Maya Tastebots may produce and distribute incidental depictions, including screenshots or other content from your Application or Device, and may use your company or product name and logos. You hereby grant Maya Tastebots all necessary rights for these purposes.</div>
+	                	<div><h4><b>Termination</b></h4></div>
+	                	<div><b>Termination.</b></div>
+	                	<div>You may change Your Plan or stop using our APIs and other Maya Tastebots Content at any time. If you want to terminate your account and these Terms, you must email us at legal@@Maya Tastebots.io and inform us of your intention to cancel your account ("Termination Notice") atleast 30days in advance. You may download a copy of your Bot (s), i.e., AIML and Other Files, through the available online interfaces at any time prior to cancelling or deleting your account or within 30 days therein. Subject to the post-termination obligations and the surviving provisions set forth in these Terms, upon our written acknowledgement of our receipt of your Termination Notice, these Terms will terminate.</div>
+	                	<div>Maya Tastebots has the right to immediately terminate these Terms or discontinue your use of the Website(s), Maya Tastebots Platform, the APIs and other Maya Tastebots Content or any portion or feature thereof for any reason and at any time without liability or other obligation to you. Upon any termination or expiration of these Terms or discontinuation of your access to any Maya Tastebots Content, you must immediately cease all use of the Maya Tastebots Platform, any Maya Tastebots Content (including the APIs), and Maya Tastebots Marks and delete all copies thereof.</div>
+	                	<div><b>Surviving Provisions.</b></div>
+	                	<div>When these Terms come to an end, those terms that by their nature are intended to continue indefinitely will continue to apply, including but not limited to: Sections 3 - 8, 10, and 11, 12- 14</div>
+	                	<div><h4><b>NO WARRANTIES</b></h4></div>
+	                	<div>THE Maya Tastebots CONTENT AND Maya Tastebots PLATFORM ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. USE OF THE Maya Tastebots CONTENT AND Maya Tastebots PLATFORM IS AT YOUR OWN RISK. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE Maya Tastebots CONTENT AND Maya Tastebots PLATFORM ARE PROVIDED WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED BY YOU FROM WITH OR THROUGH THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM WILL CREATE ANY WARRANTY NOT EXPRESSLY STATED HEREIN. WITHOUT LIMITING THE FOREGOING, Maya Tastebots , ITS SUBSIDIARIES, ITS AFFILIATES, AND ITS LICENSORS DO NOT WARRANT THAT THE Maya Tastebots CONTENT IS ACCURATE, RELIABLE OR CORRECT; THAT THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM WILL MEET YOUR REQUIREMENTS; THAT THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM WILL BE AVAILABLE AT ANY PARTICULAR TIME OR LOCATION, UNINTERRUPTED OR SECURE; THAT ANY DEFECTS OR ERRORS WILL BE CORRECTED; OR THAT THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM IS FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS. ANY CONTENT DOWNLOADED OR OTHERWISE OBTAINED THROUGH THE USE OF THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM IS DOWNLOADED AND USED AT YOUR OWN RISK AND YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO YOUR COMPUTER SYSTEM OR MOBILE DEVICE OR LOSS OF DATA THAT RESULTS FROM SUCH DOWNLOAD OR YOUR USE OF THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM.</div>
+	                	<div>YOU ARE SOLELY RESPONSIBLE FOR BACKING UP YOUR DATA AND YOUR FILES, AND MUST NOT RELY ON US TO STORE, BACKUP, OR MAKE AVAILABLE TO YOU YOUR DATA OR YOUR FILES, INCLUDING BUT NOT LIMITED TO BOTLOGS, AIML AND OTHER FILES. </div>
+	                	<div>FEDERAL LAW, SOME STATES, PROVINCES AND OTHER JURISDICTIONS DO NOT ALLOW EXCLUSIONS AND LIMITATIONS OF CERTAIN IMPLIED WARRANTIES, SO SOME OF THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU.</div>
+	                	<div><h4><b>LIMITATION OF LIABILITY</b></h4></div>
+	                	<div>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL Maya Tastebots, ITS AFFILIATES, AGENTS, DIRECTORS, EMPLOYEES, SUPPLIERS OR LICENSORS BE LIABLE FOR ANY INDIRECT, PUNITIVE, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES, INCLUDING WITHOUT LIMITATION DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE, DATA OR OTHER INTANGIBLE LOSSES, THAT RESULT FROM THE USE OF, OR INABILITY TO USE, THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM. UNDER NO CIRCUMSTANCES WILL Maya Tastebots BE RESPONSIBLE FOR ANY DAMAGE, LOSS OR INJURY RESULTING FROM HACKING, TAMPERING OR OTHER UNAUTHORIZED ACCESS OR USE OF THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM OR YOUR ACCOUNT OR THE INFORMATION CONTAINED THEREIN.</div>
+	                	<div>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, Maya Tastebots ASSUMES NO LIABILITY OR RESPONSIBILITY FOR ANY (I) ERRORS, MISTAKES, OR INACCURACIES OF THE Maya Tastebots CONTENT; (II) PERSONAL INJURY OR PROPERTY DAMAGE, OF ANY NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO OR USE OF THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM; (III) ANY UNAUTHORIZED ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION STORED THEREIN; (IV) ANY INTERRUPTION OR CESSATION OF TRANSMISSION TO OR FROM THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM; (V) ANY BUGS, VIRUSES, TROJAN HORSES, OR THE LIKE THAT MAY BE TRANSMITTED TO OR THROUGH THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM BY ANY THIRD PARTY; (VI) ANY ERRORS OR OMISSIONS IN ANY Maya Tastebots CONTENT OR FOR ANY LOSS OR DAMAGE INCURRED AS A RESULT OF THE USE OF ANY Maya Tastebots CONTENT OR OTHER CONTENT OR DATA TRANSMITTED OR OTHERWISE MADE AVAILABLE THROUGH THE Maya Tastebots PLATFORM; AND/OR (VII) CUSTOMER DATA OR THE DEFAMATORY, OFFENSIVE, OR ILLEGAL CONDUCT OF ANY THIRD PARTY. IN NO EVENT SHALL Maya Tastebots , ITS AFFILIATES, AGENTS, DIRECTORS, EMPLOYEES, SUPPLIERS, OR LICENSORS BE LIABLE TO YOU FOR ANY CLAIMS, PROCEEDINGS, LIABILITIES, OBLIGATIONS, DAMAGES, LOSSES OR COSTS IN AN AMOUNT EXCEEDING LOWER OF THE AMOUNT YOU PAID TO Maya Tastebots HEREUNDER IN THE THREE (3) MONTHS PRIOR TO THE DATE THE LAST CAUSE OF ACTION AROSE OR USD 100.</div>
+	                	<div>THIS LIMITATION OF LIABILITY SECTION APPLIES WHETHER THE ALLEGED LIABILITY IS BASED ON CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY, OR ANY OTHER BASIS, EVEN IF Maya Tastebots HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. THE FOREGOING LIMITATION OF LIABILITY SHALL APPLY TO THE FULLEST EXTENT PERMITTED BY LAW IN THE APPLICABLE JURISDICTION.</div>
+	                	<div>SOME STATES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE LIMITATIONS OR EXCLUSIONS MAY NOT APPLY TO YOU. THIS AGREEMENT GIVES YOU SPECIFIC LEGAL RIGHTS, AND YOU MAY ALSO HAVE OTHER RIGHTS WHICH VARY FROM STATE TO STATE. THE DISCLAIMERS, EXCLUSIONS, AND LIMITATIONS OF LIABILITY UNDER THIS AGREEMENT WILL NOT APPLY TO THE EXTENT PROHIBITED BY APPLICABLE LAW.</div>
+	                	<div>In using the Maya Tastebots Content and Maya Tastebots Platform, you must design and test your Devices and Applications to ensure that your Devices and Applications do not present risks of personal injury or death, property damage, or other losses. You must implement all reasonable security measures to ensure that no third party may gain unauthorized access to the Maya Tastebots Platform or Maya Tastebots Content. If you choose to use the Maya Tastebots Content or Maya Tastebots Platform in any way, you assume all risk that your use of the Maya Tastebots Content or Maya Tastebots Platform causes any damage, harm, injury, or loss, including without limitation to any End Users or other individuals or property. You agree that you are solely responsible for any damage, harm, injury, or loss arising from or relating to your Device or Application or your use of any Maya Tastebots Content or the Maya Tastebots Platform, and you agree to hold us harmless from all such damage, harm, injury, or loss.</div>
+	                	<div><h4><b>INDEMNIFICATION</b></h4></div>
+	                	<div>You agree to defend, indemnify and hold harmless Maya Tastebots and its subsidiaries, agents, licensors, managers, and other affiliated companies, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees) arising from or related to: (i) your use of and access to the Maya Tastebots Content (including the APIs) or Maya Tastebots Platform, including any data or content transmitted or received by you; (ii) your violation or alleged violation of any term of these Terms, including without limitation your breach of any of the representations and warranties above; (iii) any violation of any third-party right, including without limitation any right of privacy or intellectual property rights, by you, your Customer Data, Device, or Application, or any use thereof; (iv) your violation of any applicable law, rule or regulation; (v) any of your Customer Data or any that is transmitted via your account; (vi) any personal injury or property damage arising from or relating to your use of the Maya Tastebots Content or Maya Tastebots Platform or any authorized or unauthorized use of your Device or Application; or (vii) any other party's access and use of the Maya Tastebots Content or Maya Tastebots Platform with your unique username, password or other appropriate security code.</div>
+	                	<div><h4><b>OTHER LEGAL TERMS AND CONDITIONS</b></h4></div>
+	                	<div><b>Independent Development.</b></div>
+	                	<div>These Terms do not impair Maya Tastebots right to develop, manufacture, purchase, use or market, directly or indirectly, alone or with others, products or services competitive with those offered by you.</div>
+	                	<div><b>Confidential Information.</b></div>
+	                	<div>Our communications to you may contain Maya Tastebots confidential information. If you receive any materials or communications that are clearly confidential or marked confidential, then you will not disclose the Maya Tastebots confidential information to any third party without Maya Tastebots's prior written consent.</div>
+	                	<div><b>Notifications and Modification.</b></div>
+	                	<div>Maya Tastebots may provide notifications, whether such notifications are required by law or are for marketing or other business related purposes, to you via email notice, written or hard copy notice, or through posting of such notice on our website, as determined by Maya Tastebots in our sole discretion. Maya Tastebots reserves the right to determine the form and means of providing notifications to our users. Maya Tastebots is not responsible for any automatic filtering you or your network provider may apply to email notifications we send to the email address you provide us. Maya Tastebots may, in its sole discretion, modify or update these Terms from time to time, and so you should review this page periodically. When we change these Terms in a material manner, we will update the 'last modified' date at the top of this page. Your continued use of the Maya Tastebots Content or Maya Tastebots Platform after any such change constitutes your acceptance of the new Terms of Service. If you do not agree to any of these Terms or any future Terms of Service, do not use or access (or continue to access) the Maya Tastebots Content or Maya Tastebots Platform.</div>
+	                	<div><b>HIPPA Compliance.</b></div>
+	                	<div>You understand and agree that the Maya Tastebots Platform is not HIPPA compliant and such compliance is not expected to be included within the Services unless otherwise agreed in writing.</div>
+	                	<div><b>Governing Law.</b></div>
+	                	<div>These Terms shall be governed by the internal substantive laws of the State of California, without respect to its conflict of laws principles. The parties acknowledge that these Terms evidence a transaction involving interstate commerce. Notwithstanding the preceding sentences with respect to the substantive law, any arbitration conducted pursuant to these Terms shall be governed by the Federal Arbitration Act (9 U.S.C. &sect;&sect; 1-16). The application of the United Nations Convention on Contracts for the International Sale of Goods is expressly excluded. You agree to submit to the personal jurisdiction of the federal and state courts located in USA, California for any actions for which we retain the right to seek injunctive or other equitable relief in a court of competent jurisdiction to prevent the actual or threatened infringement, misappropriation or violation of our copyrights, trademarks, trade secrets, patents, or other intellectual property or proprietary rights, as set forth in the Arbitration provision below, including any provisional relief required to prevent irreparable harm. You agree that USA, California is the proper forum for any appeals of an arbitration award or for trial court proceedings in the event that the arbitration provision below is found to be unenforceable.</div>
+	                	<div><h4><b>ARBITRATION</b></h4></div>
+	                	<div>READ THIS SECTION CAREFULLY BECAUSE IT REQUIRES THE PARTIES TO ARBITRATE THEIR DISPUTES AND LIMITS THE MANNER IN WHICH YOU CAN SEEK RELIEF FROM Maya Tastebots. For any dispute with Maya Tastebots, you agree to first contact us at legal@@Maya Tastebots.io and attempt to resolve the dispute with us informally. In the unlikely event that Maya Tastebots has not been able to resolve a dispute after sixty (60) days, we each agree to resolve any claim, dispute, or controversy (excluding any claims for injunctive or other equitable relief as provided below) arising out of or in connection with or relating to these Terms, or the breach or alleged breach thereof (collectively, "Claims"), shall be referred to a panel of 3 Arbitrators in accordance with Arbitration and Conciliation Act, 1996 or any statutory modifications or re-enactment thereof for the time being in force. The language of the arbitration shall be English. The venue of such arbitration shall be at Mumbai and the award of the Arbitrator shall be binding on both the parties. If you are using the Maya Tastebots Content or Maya Tastebots Platform for commercial purposes, each party will be responsible for paying any Arbitration filing, administrative and arbitrator fees in accordance with rules, and the award rendered by the arbitrator shall include costs of arbitration, reasonable attorneys' fees and reasonable costs for expert and other witnesses. If you are an individual using the Maya Tastebots Content or Maya Tastebots Platform for non-commercial purposes: (i) Maya Tastebots may require you to pay a fee for the initiation of your case, unless you apply for and successfully obtain a fee waiver from Maya Tastebots; (ii) the award rendered by the arbitrator may include your costs of arbitration, your reasonable attorney's fees, and your reasonable costs for expert and other witnesses; and (iii) you may sue in a small claims court of competent jurisdiction without first engaging in arbitration, but this does not absolve you of your commitment to engage in the informal dispute resolution process. Any judgment on the award rendered by the arbitrator may be entered in any court of competent jurisdiction. Nothing in this Section shall be deemed as preventing Maya Tastebots from seeking injunctive or other equitable relief from the courts as necessary to prevent the actual or threatened infringement, misappropriation, or violation of our data security, intellectual property rights or other proprietary rights.</div>
+	                	<div><b>Class Action/Jury Trial Waiver. </b></div>
+	                	<div>WITH RESPECT TO ALL PERSONS AND ENTITIES, REGARDLESS OF WHETHER THEY HAVE OBTAINED OR USED THE Maya Tastebots CONTENT OR Maya Tastebots PLATFORM FOR PERSONAL, COMMERCIAL OR OTHER PURPOSES, ALL CLAIMS MUST BE BROUGHT IN THE PARTIES' INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS ACTION, COLLECTIVE ACTION, PRIVATE ATTORNEY GENERAL ACTION OR OTHER REPRESENTATIVE PROCEEDING. THIS WAIVER APPLIES TO CLASS ARBITRATION, AND, UNLESS WE AGREE OTHERWISE, THE ARBITRATOR MAY NOT CONSOLIDATE MORE THAN ONE PERSON'S CLAIMS. YOU AGREE THAT, BY ENTERING INTO THIS AGREEMENT, YOU AND Maya Tastebots ARE EACH WAIVING THE RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS ACTION, COLLECTIVE ACTION, PRIVATE ATTORNEY GENERAL ACTION, OR OTHER REPRESENTATIVE PROCEEDING OF ANY KIND.</div>
+	                	<div><b>General Legal Terms.</b></div>
+	                	<div>These Terms control the relationship between Maya Tastebots and you. They do not create any third party beneficiary rights. If the Maya Tastebots Content or Maya Tastebots Platform is licensed to the United States government or any agency thereof, then the Maya Tastebots Content and Maya Tastebots Platform will be deemed to be "commercial computer software" and "commercial computer software documentation," respectively, pursuant to DFARS Section 227.7202 and FAR Section 12.212, as applicable.</div>
+	                	<div>Any use, reproduction, release, performance, display or disclosure of the Maya Tastebots Content or Maya Tastebots Platform and any accompanying documentation by the U.S. Government will be governed solely by the terms and conditions of these Terms and is prohibited except to the extent expressly permitted by the terms and conditions of these Terms. The Maya Tastebots Content and Maya Tastebots Platform originate in the United States, and are subject to United States export laws and regulations. The Maya Tastebots Content and Maya Tastebots Platform may not be exported or re-exported to certain countries or those persons or entities prohibited from receiving exports from the United States. In addition, the Maya Tastebots Content and Maya Tastebots Platform may be subject to the import and export laws of other countries. You agree to comply with all United States and foreign laws related to use of the Maya Tastebots Content and the Maya Tastebots Platform.</div>
+	                	<div>No waiver of any term of these Terms shall constitute a further or continuing waiver of such term or any other term, and Maya Tastebots failure to assert any right or provision under these Terms shall not constitute a waiver of such right or provision.</div>
+	                	<div>These Terms and any rights and licenses granted hereunder, may not be transferred or assigned by you, but may be assigned by Maya Tastebots without restriction. Any attempted transfer or assignment in violation hereof shall be null and void.</div>
+	                	<div>These Terms, together with any amendments and any additional agreements you may enter into with Maya Tastebots in connection with the Maya Tastebots Content or Maya Tastebots Platform, shall constitute the entire agreement between you and Maya Tastebots concerning the Maya Tastebots Content and Maya Tastebots Platform.</div>
+	                	<div>If any provision of these Terms is deemed invalid by a court of competent jurisdiction, the invalidity of such provision shall not affect the validity of the remaining provisions of these Terms, which shall remain in full force and effect, except that in the event of unenforceability of the universal Class Action/Jury Trial Waiver, the entire arbitration agreement shall be unenforceable.</div>
+	                	<div><h4><b>CONTACT</b></h4></div>
+	                	<div>Please contact us at <a href="mailto:reach.us@@IaaSimov.com">reach.us@@IaaSimov.com</a> with any questions regarding these Terms.</div>
+                	</div>
+                </div>
+                <!-- End # DIV Form -->
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="privacy-policy-modal" tabindex="-1" role="dialog" aria-labelledby="Privacy Policy" aria-hidden="true" style="display: none;">
+    	<div class="modal-dialog" style="width: 90%;">
+			<div class="modal-content">
+				<div class="modal-header" align="center">
+					<img id="img_logo" src="/assets/images/logog.png">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</div>
+                
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                	<div class="modal-body"  style="text-align: justify;">
+	                	<div><h3>Privacy Policy</h3></div>
+	                	<div><i>Last Modified: 21 Dec 2016</i></div>
+	                	<div>Crayon Data Pte Ltd. is committed to maintaining robust privacy protections for our users. Our Privacy Policy ("Privacy Policy") is designed to help you understand how we collect, use, and safeguard the information you provide to us. For purposes of this Agreement, "Site" refers to https://www.tastebots.com, https://www.testmaya.com   and "Service" refers to any feature or function of the Sites or mobile applications (the "Maya App" and "Maya Tastebot") or services distributed via public messaging platforms such as Facebook Messenger, Whatsapp, Telegram, Kik, etc. The terms "we," "us," "our" and "Maya" refer to Crayon Data Pte Ltd. "You" refers to you, as a user of the Site, and of the Maya App and Maya Tastebot and the Service. By accepting our Privacy Policy and Terms of Use (found here: https://www.tastebots.com/terms), you consent to our collection, storage and use of your non-personal or personal information as described in this Privacy Policy.</div>
+	                	<div>To use the Maya App, Maya Tastebot and our Services you must accept our Privacy Policy and our Terms of Use. If you do not accept both, you are not permitted to use the Maya App, Maya Tastebot or the Service or to provide us with Personal Information.</div>
+	                	<div>&nbsp;&nbsp;1.&nbsp;&nbsp;Information we do (and don't) collect</div>
+	                	<div>&nbsp;&nbsp;2.&nbsp;&nbsp;How we use information</div>
+	                	<div>&nbsp;&nbsp;3.&nbsp;&nbsp;How we protect information</div>
+	                	<div>&nbsp;&nbsp;4.&nbsp;&nbsp;Your rights regarding the use of your personal information</div>
+	                	<div>&nbsp;&nbsp;5.&nbsp;&nbsp;Links to other websites or services</div>
+	                	<div>&nbsp;&nbsp;6.&nbsp;&nbsp;Changes to our privacy policy</div>
+	                	<div>&nbsp;&nbsp;7.&nbsp;&nbsp;Contact us</div>
+	                	<div><h4><b>1.&nbsp;&nbsp;INFORMATION WE COLLECT</b></h4></div>
+	                	<div>Maya is founded on the concept of trust and, as such, earning and keeping your trust are paramount to what we do. At Maya, we are fiercely protective of your personal information. In order to provide the Service, we need to collect both "Non-Personal Information" and "Personal Information." Non-Personal Information includes information that cannot be used to personally identify you, such as anonymous usage data, demographic information, referring/exit pages and URLs, platform types, preferences you submit and preferences that are generated based on the data you submit. Personal Information includes only your first name and email address, which you submit to us through the registration process on the Site, the Maya App or Maya Tastebot and which is not shared with any third parties. You may also, but are not required to, provide us with your gender when registering for the Site or the Maya App or Maya Tastebot.</div>
+	                	<div><b>A.&nbsp;&nbsp;INFORMATION COLLECTED VIA TECHNOLOGY</b></div>
+	                	<div>To activate and use the Service you do not need to submit any Personal Information other than your first name and email address. You can create a profile by registering directly through the Site, or by any social networking sites or other sites with which we may partner or by which we may provide registration opportunities. When you register, you will need to enter your first name and email address (which functions as your user ID) and create a password. You may also, but are not required to, provide us with your gender. By registering, you are authorizing us to collect, store and use your first name, email address and gender (if provided) in accordance with this Privacy Policy.</div>
+	                	<div><b>B.&nbsp;&nbsp;TO USE THE SERVICE THEREAFTER, YOU DO NOT NEED TO SUBMIT FURTHER PERSONAL INFORMATION</b></div>
+	                	<div>In an effort to improve the quality of the Site, the Maya App, Maya Tastebot and the Service, we track non-personal information provided to us by your browser or mobile application when you view the Site use the Service. Methods may include, the website you may have come from (known as the "referring url"), the type of browser you use, the device from which you connected to the Service, the time and date of access, and other information that does not personally identify you.</div>
+	                	<div><b>C.&nbsp;&nbsp;INFORMATION YOU GIVE US</b></div>
+	                	<div>As part of the Service, you may have the ability to share any information or opinion that you may post, upload, link to or otherwise make available via the Service or on the Site or the Maya App, or the Maya Tastebot, including by using the thumbs-ups and pins. We refer to this collectively as User Content. In posting User Content via the Service or on the Site or the Maya App or the Maya Tastebot, you agree not to provide Personal Information or confidential or sensitive information relating to, or controlled by third parties unless: (1) you have obtained any required permission to do so under applicable law and, (2) for Personal Information relating to someone other than you, you have informed the person whose data will be included that their Personal Information will be subject to this Privacy Policy and you have obtained their consent to this Privacy Policy. You must do this even if an inability to obtain permission means that you cannot submit your User Content or other information. By providing information to us, you represent and warrant that you have made all required disclosures and obtained all required permissions.</div>
+	                	<div>We may highlight the User Content you submit via the Service or on the Site or the Maya App or the Maya Tastebot such as reviews, comments, or articles. In addition, if you register for the Service using a third party service provider (e.g. Facebook Connect), any user who is connected to you via such third party service provider (e.g. a user that is your "friend" on Facebook or "follows" you on Twitter) can view the User Content you may submit via the Service or on the Site or the Maya App or the Maya Tastebot. In addition, if you voluntarily send information to another user, including by emailing such user a link, that information can be viewed and possibly used by such user.</div>
+	                	<div>Please keep in mind that whenever you voluntarily provide information or publish links in public areas of the Site or the Maya App or the Maya Tastebot, such as the user profile pages or forums, that information can be viewed and possibly used by others. We therefore advise users not to disclose contact information, including phone number, email address, street address or instant messenger address within these public areas that they do not wish to share. We are not responsible for Personal Information you choose to submit in these forums or pages.</div>
+	                	<div><b>D.&nbsp;&nbsp;MINORS</b></div>
+	                	<div>Maya does not knowingly collect or solicit information from anyone under the age of 13 or knowingly allow such persons to register. If you are under 13, please do not attempt to register for Maya or send any information about you to us, including your first name, gender and email address. No one under age 13 may provide any information to or on Maya.</div>
+	                	<div><h4><b>2.&nbsp;&nbsp;HOW WE USE INFORMATION</b></h4></div>
+	                	<div><b>A.&nbsp;&nbsp;PERSONAL INFORMATION</b></div>
+	                	<div>We do not sell, trade, rent or otherwise share your Personal Information with third parties without your consent. Vendors who are performing services for Maya, such as the servers for our email communications, will have temporary access to your email address strictly for purposes of sending emails from us. Those vendors use your Personal Information only at our direction and in accordance with our Privacy Policy. The Personal Information you provide to us is ONLY used to help us communicate with you.</div>
+	                	<div>With forethought, discretion, and respect for our users, we may use your email address to send you messages, including information about Maya and special offers. We may use your first name and gender (if provided) or refer to your User Content in such messages.</div>
+	                	<div>You may register for the Service using third party service providers (e.g., Facebook Connect) ("Third Party Services"). By enabling such Third Party Services within the Service, you permit us to pass information to the third party service providers for this purpose. Please remember that the manner in which Third Party Services use, store and disclose your information is governed solely by the policies of such Third Party Services. You should review the applicable terms and policies of Third Party Services, including privacy and data gathering practices. We shall have no liability or responsibility for the privacy practices or other actions of any Third Party Services or any other third party site or service that may be enabled within the Service.</div>
+	                	<div><b>B.&nbsp;&nbsp;NON-PERSONAL INFORMATION</b></div>
+	                	<div>In general, we use Non-Personal Information to help us provide the Service, improve the Service and customize the user experience. We also aggregate Non-Personal Information in order to track trends and analyze use patterns on the Site. We do this as part of providing the Service and for purposes of improving the Service. This Privacy Policy does not limit in any way our use or disclosure of Non-Personal Information and we reserve the right to use and disclose such Non-Personal Information to our partners and other third parties at our discretion. In the event we undergo a business transaction such as a merger, acquisition by another company, or sale of all or a portion of our assets, your Personal Information may be transferred but would continue to be protected under this Privacy Policy. You acknowledge and consent that such transfers may occur and are permitted by this Privacy Policy. We also reserve the right to release account and other Personal Information when we believe release is appropriate to comply with law, to respond to legal process, to make disclosures under programs intended to prevent potential crimes or investigate persons, enforce or apply agreements, or protect the rights, property, or safety of Maya, our users, or others. We generally will retain information for as long as required, allowed or we believe it useful, but do not undertake retention obligations. We may dispose of information in our discretion without notice, subject to applicable law that specifically requires the handling or retention of information. You must keep your own, separate records.</div>
+	                	<div><h4><b>3.&nbsp;&nbsp;HOW WE PROTECT INFORMATION</b></h4></div>
+	                	<div>Your privacy and trust are paramount to our success and fundamental to our business. We implement security measures designed to protect your information from unauthorized access. Your account is protected by your account password and we urge you to take steps to keep your account safe by not disclosing your password and by logging out of your account after each use. Your emails to us are not necessarily secure against interception so do not include sensitive information in them. We generally will not ask for passwords or the like in an email. You agree not to enter information on the Site or the Maya App or the Maya Tastebot if you (or anyone else whose information you enter) desire a higher level of security than we describe in this policy or if you have not obtained any appropriate consents. We further protect your information from potential security breaches by implementing certain technological security measures including encrypted login credentials, off-site data storage, tiered-security data models, and bank-level SSL encryption for site transactions. We also employ industry-accredited services to test our site daily, and we subscribe to anti-phishing services and fraud-detection services to further protect the Site and our Service. Although we strive to minimize the risk of an unlawful security breach of our system, like with all systems, these measures do not guarantee that your information will never be accessed, disclosed, altered or destroyed by breach of such firewalls and secure server software. By using our Service, you acknowledge that you understand and agree to assume these risks.</div>
+	                	<div><h4><b>4.&nbsp;&nbsp;YOUR RIGHTS REGARDING THE USE OF YOUR INFORMATION</b></h4></div>
+	                	<div>You have the right at any time to prevent us from contacting you for marketing purposes. If we send you a promotional communication, you can opt out of receiving further promotional communications by following the unsubscribe instructions provided in each promotional e-mail. You can also let us know that you do not wish to receive marketing communications from us in the "Settings" section of the Site. Please note that notwithstanding the promotional preferences you indicate by either unsubscribing or opting out in the Settings section of the Site, we may continue to send you administrative emails including, for example, periodic updates to our Privacy Policy.</div>
+	                	<div><h4><b>5.&nbsp;&nbsp;LINKS TO OTHER WEBSITES OR SERVICES</b></h4></div>
+	                	<div>As part of the Service, we may provide links or access to other websites or services. However, we are not responsible for the privacy practices employed by those websites or services or the information or content they contain. This Privacy Policy applies solely to information collected by us through the Site, the Maya App, Maya Tastebot and the Service. Therefore, this Privacy Policy does not apply to your use of a third party website or service accessed from our Site, the Maya App, Maya Tastebot or via our Service. We encourage our users to read the privacy statements of other websites before proceeding to use them.</div>
+	                	<div><h4><b>6.&nbgsp;&nbsp;CHANGES TO OUR PRIVACY POLICY</b></h4></div>
+	                	<div>Maya reserves the right to change this policy and our Terms of Use at any time. We will notify you of significant changes to our Privacy Policy by sending a notice to the primary email address specified in your account or by placing a prominent notice on our site. Significant changes will go into effect 30 days following such notification. Non-material changes or clarifications will take effect immediately and without notification. You can periodically check the Site, the Maya App, Maya Tastebot and this privacy page for updates.</div>
+	                	<div><h4><b>7.&nbsp;&nbsp;CONTACT US</b></h4></div>
+	                	<div>If you have any questions regarding this Privacy Policy or the practices of this Site, please contact us at <a href="mailto:reach.us@@crayondata.com">reach.us@@crayondata.com</a>.</div>
+	                	<div>This Privacy Policy is part of and incorporated into the Terms of Use. If there is an inconsistency between the Terms of Use and this Privacy Policy, the latest version of this Privacy Policy shall control.</div>
+                	</div>
+                </div>
+                <!-- End # DIV Form -->
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/popupmodal.js")'></script>
+<script type="text/javascript">
+<!--
+function customerlogin() {
+	if ($("#login_username").val() == "" || $("#login_password").val() == "") {
+		$("#text-login-msg").html("Please enter email and password.");
+		return;
+	}
+	$("#text-login-msg").html("<img src='/assets/images/loading.gif' />");
+	$.ajax({
+	    url: "/customer/login",
+	    data: { email: $("#login_username").val(), password: $("#login_password").val() },
+	    dataType: "json",
+	    type: "POST",
+	    success: function(data) {
+	    	if (data.err) {
+	    		$("#text-login-msg").html(data.err);
+	    	} else {
+	    		window.location.href="/customer/app";
+	    	}
+	    },
+	    error: function (xhr, ajaxOptions, thrownError) {
+	    	handleErr();
+	    }
+	});
+}
+
+function customerRequest() {
+	if ($("#request_company").val() == "") {
+		$("#text-request-msg").html("Please enter your company name.");
+		$("#request_company").focus();
+		return;
+	}
+	if ($("#request_username").val() == "") {
+		$("#text-request-msg").html("Please enter your user name.");
+		$("#request_username").focus();
+		return;
+	}
+	if ($("#request_email").val() == "") {
+		$("#text-request-msg").html("Please enter your email.");
+		$("#request_email").focus();
+		return;
+	}
+	$("#text-request-msg").html("<img src='/assets/images/loading.gif' />");
+	$.ajax({
+	    url: "/customer/request",
+	    data: { company: $("#request_company").val(), username: $("#request_username").val(), email: $("#request_email").val() },
+	    dataType: "json",
+	    type: "POST",
+	    success: function(data) {
+	    	if (data.err) {
+	    		$("#text-request-msg").html(data.err);
+	    	} else {
+	    		$("#text-request-msg").html(data.msg);
+	    	}
+	    },
+	    error: function (xhr, ajaxOptions, thrownError) {
+	    	handleErr();
+	    }
+	});
+}
+
+function switchModel(opt) {
+	if (opt == 1) {
+		$('#register-form').css("display", "none");
+		$('#login-form').css("display", "block");
+	} else {
+		$('#register-form').css("display", "block");
+		$('#login-form').css("display", "none");
+	}
+}
+
+//-->
+var curl = window.location.href;
+if (curl.indexOf("/dev/api") >= 0) {
+	$('#login-modal').modal('show');
+}
+</script>
+}

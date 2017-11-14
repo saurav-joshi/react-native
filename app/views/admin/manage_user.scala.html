@@ -1,0 +1,106 @@
+@main {
+<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/chat.css")'>
+<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/popupmodal.css")'>
+<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/animate.css")'>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/bootstrap-notify.min.js")'></script>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/d3.v3.min.js")'></script>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/d3.legend.js")'></script>
+<style>
+
+.arc path {
+  stroke: #fff;
+}
+
+.legend rect {
+  fill:white;
+  stroke:black;}
+
+</style>
+	<!-- Fixed header navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">    
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" style="margin-right: 25px;">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="javascript:void(0);" onclick="gotoPage('/')" style="color: black; float: left; overflow: hidden;">#TasteBot</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
+          	@defining(play.cache.Cache.get(session.get(com.iaasimov.utils.StringConstants.CUSTOMER_UUID) + "-customer").asInstanceOf[com.iaasimov.entity.Customer]) { customer =>
+          		@if(customer.getIsAdmin()) {
+          			<li class="" style="padding-left: 10px;"><a href="javascript:void(0);" onclick="gotoPage('/customer/manage')">Manage User</a></li>
+          		}
+          	}
+          	<li class="" style="padding-left: 10px;"><a href="javascript:void(0);" onclick="gotoPage('/customer/app')">Manage App</a></li>
+          	<li class="" style="padding-left: 10px;"><a href="javascript:void(0);" onclick="gotoPage('/dev/api')">API Doc</a></li>
+            <li class="" style="padding-left: 10px;"><a href="javascript:void(0);" onclick="gotoPage('/customer/logout')">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!-- Begin page content -->
+    <div class="container" style="padding-top: 60px;">
+        <table class="table table-hover table-responsive">
+        	<thead>
+        		<tr>
+        			<th>Name</th>
+        			<th>Email</th>
+        			<th>Company Name</th>
+        			<th>Expired Date</th>
+        			<th>Request Limited</th>
+        			<th>Action</th>
+        		</tr>
+        	</thead>
+        	<tbody id="appid-body"></tbody>
+        	<tfoot>
+        		<tr><td colspan="6" align="right"><button class="btn btn-small btn-primary" type="button" data-toggle="modal" data-target="#login-modal">Create Customer</button></td></tr>
+        	</tfoot>
+		</table>
+    </div>
+    
+    <!-- BEGIN # MODAL LOGIN -->
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" align="center">
+					<img id="img_logo" src="/assets/images/logog.png">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</div>
+                
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+                
+                    <!-- Begin # Login Form -->
+                    <form id="login-form">
+		                <div class="modal-body">
+				    		<div id="div-login-msg">
+                                <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-login-msg">Type your new customer.</span>
+                            </div>
+				    		<input id="customerName" class="form-control" type="text" placeholder="Customer Name" required>
+				    		<input id="customerEmail" class="form-control" type="text" placeholder="Customer Email" required>
+				    		<input id="customerCompany" class="form-control" type="text" placeholder="Comapny" required>
+        		    	</div>
+				        <div class="modal-footer">
+                            <div>
+                                <button type="button" onclick="createCustomer()" class="btn btn-primary btn-lg btn-block">Create</button>
+                            </div>
+				        </div>
+                    </form>
+                    <!-- End # Login Form -->
+                </div>
+                <!-- End # DIV Form -->
+			</div>
+		</div>
+	</div>
+    <!-- END # MODAL LOGIN -->
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/popupmodal.js")'></script>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/manage-user.js")'></script>
+}

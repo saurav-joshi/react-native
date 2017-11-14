@@ -1,0 +1,381 @@
+@main {
+<link rel="stylesheet" type="text/css" media="all" href='@routes.Assets.at("stylesheets/api-sidebar.css")'>
+<script type="text/javascript" language="javascript" src='@routes.Assets.at("javascripts/pretty.print.json.js")'></script>
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top" style="opacity: 0.5;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="javascript:window.location.href='/';">#TasteBot</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <!-- <a class="page-scroll" href="#about">Demo</a> -->
+                        <a class="page-scroll" href="javascript:window.location.href='/demo/chatbot';">Demo</a>
+                    </li>
+                    @defining(play.cache.Cache.get(session.get(com.iaasimov.utils.StringConstants.CUSTOMER_UUID) + "-customer").asInstanceOf[com.iaasimov.entity.Customer]) { customer =>
+	                    @if(customer != null) {
+	                    	<li>
+				          		<a class="page-scroll" href="javascript:window.location.href='/customer/app';">Dashboard</a>
+	                    	</li>
+	                    }
+	                    <li>
+				          	@if(customer != null) {
+				          		<a class="page-scroll" href="javascript:window.location.href='/customer/logout';">Logout</a>
+				          	} else {
+				          		<a class="page-scroll" href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+				          	}
+	                    </li>
+                    }
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+	<div id="wrapper" style="margin-top: 50px;">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+            	<!-- <li class="sidebar-brand"><a href="#" onclick="gotoid('/')">#TasteBot</a></li> -->
+                <li class="sidebar-brand"><a href="#" onclick="gotoid('#TasteBotAPI')">#TasteBot API</a></li>
+                <li><a href="#" onclick="gotoid('#create')">POST api/create</a></li>
+                <li><a href="#" onclick="gotoid('#query')">POST api/query</a></li>
+                <li><a href="#" onclick="gotoid('#like')">POST api/like</a></li>
+                <li><a href="#" onclick="gotoid('#dislike')">POST api/dislike</a></li>
+                <li><a href="#" onclick="gotoid('#booking')">POST api/booking</a></li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                    	<!-- <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a> -->
+                        <h1><a name="TasteBotAPI">#TasteBot APIs</a></h1>
+                        <p>The <code>TasteBot APIs</code> provide programmatic access to read and write TasteBot data. Author a new TasteBot, read user profile and taste data, and more. The TasteBot API identifies TasteBot applications and users using AppID; responses are available in JSON.</p>
+                        <h4>Feedback and next steps</h4>
+                        <p>If you find any issues with the API, please use our discussion Crayon dedicated to API v1.0 where we'll be available and actively listening to all of your feedback. We look forward to working with you and can't wait to see what everyone builds.</p>
+                        <br><br><br>
+                        <h1><a name="create">POST api/create</a></h1>
+                        <p>Create a new user with the system and obtain the user_token</p>
+                        <h4>Resource URL</h4>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/create</p>
+                        <h4>Resource Information</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">Request formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">Response formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       	</table>
+                        <h4>Parameters</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label-bold">userName</span><br><span class="field-label">required</span></td>
+                       			<td>The user name helps the server to understand who are you and useful for some contexts.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">applicationId</span><br><span class="field-label">required</span></td>
+                       			<td>The application id that you received in the email.</td>
+                       		</tr>
+                       	</table>
+                        <h4>Example Request</h4>
+                        <p>POST</p>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/create</p>
+                        <p>{"userName": "Crayondata", "applicationId": "3518019034437350288"}</p>
+                        <h4>Example Result</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">200</span></td>
+                       			<td><code>token</code> all further API calls must have this key in request<br><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"userName": "Crayondata", "applicationId": "3518019034437350288", "token": "MzUxODAxOTAzNDQzNzM1MDI4NC04NDk1Y2M0ZC02ZGFiLTQ2MTktYTY1ZS03ZDFhZTpjZWUyZmQ="})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">400</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Please provide user_name."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">401</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid application id."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">403</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"user_name is missing."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">500</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Something went wrong. Please try again later."})+"</code></pre>");</script></td>
+                       		</tr>
+                       	</table>
+                        <br><br><br>
+                        <h1><a name="query">POST api/query</a></h1>
+                        <p>Ask the #TasteBot any questions about the restaurants in Singapore.</p>
+                        <h4>Resource URL</h4>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/query</p>
+                        <h4>Resource Information</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">Request formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">Response formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       	</table>
+                        <h4>Parameters</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label-bold">token</span><br><span class="field-label">required</span></td>
+                       			<td>The token that was given in response to <code onclick="gotoid('#create')">/api/create</code>.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">question</span><br><span class="field-label">depend</span></td>
+                       			<td>The question user want to ask anything about the restaurants in Singapore. This field may be empty depend on the value of type field.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">type</span><br><span class="field-label">required</span></td>
+                       			<td>
+                       				<span>The type of question, this field will indicate to the server follow the value keywords as below:</span><br>
+                       				<ul>
+                       					<li><b>QUERY: </b>question field have to filled.</li>
+                       					<li><b>NEW: </b>this value should be used for the first time when account created, an introduce message will be response.</li>
+                       					<li><b>BEGIN: </b>this value should be used when user doesn't have any actions/asks for long time, a greeting and tips message will be response.</li>
+                       				</ul>
+                       			</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">longitude</span><br><span class="field-label">optional</span></td>
+                       			<td>The latitude of current user location, this field is not mandatory but helpful to suggest you restaurants around you.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">latitude</span><br><span class="field-label">optional</span></td>
+                       			<td>The latitude of current user location, this field is not mandatory but helpful to suggest you restaurants around you.</td>
+                       		</tr>
+                       	</table>
+                        <h4>Example Request</h4>
+                        <p>POST</p>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/query</p>
+                        <p>{"token": "MzUxODAxOTAzNDQzNzM1MDI4NC04NDk1Y2M0ZC02ZGFiLTQ2MTktYTY1ZS03ZDFhZTpjZWUyZmQ=", "question": "what is the best restaurant in Singapore?", "type": "QUERY"}</p>
+                        <h4>Example Result</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">200</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"restaurants": [{"image": "item_1_saturam_restaurant_metadata_info:rv:1f2cca00c44ba2177bae3f67914fc50c.jpg","address": "263 Joo Chiat Place, Singapore, 427945, Singapore","cuisine": "Asian,South Indian,Indian","geo": "1.314333,103.906685","price": "low","name": "Rajah's Curry","id": "302562232"}],"message": "Gotchya!  See if these work.  Click the like button if i've nailed it. :smile:"})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">400</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Please ask any questions."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">400</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid type key."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">401</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid token key."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">500</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Something went wrong. Please try again later."})+"</code></pre>");</script></td>
+                       		</tr>
+                       	</table>
+                        <br><br><br>
+                        <h1><a name="like">POST api/like</a></h1>
+						<p>Like a restaurant for better results in the future.</p>
+                        <h4>Resource URL</h4>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/like</p>
+                        <h4>Resource Information</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">Request formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">Response formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       	</table>
+                        <h4>Parameters</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label-bold">token</span><br><span class="field-label">required</span></td>
+                       			<td>The token that was given in response to <code onclick="gotoid('#create')">/api/create</code>.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">restIds</span><br><span class="field-label">required</span></td>
+                       			<td>The array of restaurant id liked that was given in the query restaurant list.</td>
+                       		</tr>
+                       	</table>
+                        <h4>Example Request</h4>
+                        <p>POST</p>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/like</p>
+                        <p>{"token": "MzUxODAxOTAzNDQzNzM1MDI4NC04NDk1Y2M0ZC02ZGFiLTQ2MTktYTY1ZS03ZDFhZTpjZWUyZmQ=", "restIds": ["301490001", "301606627"]}</p>
+                        <h4>Example Result</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">200</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"success":"success"})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">400</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid restaurant id."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">401</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid token key."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">500</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Something went wrong. Please try again later."})+"</code></pre>");</script></td>
+                       		</tr>
+                       	</table>
+                        <br><br><br>
+                        <h1><a name="dislike">POST api/dislike</a></h1>
+                        <p>Dislike a restaurant</p>
+                        <h4>Resource URL</h4>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/dislike</p>
+                        <h4>Resource Information</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">Request formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">Response formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       	</table>
+                        <h4>Parameters</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label-bold">token</span><br><span class="field-label">required</span></td>
+                       			<td>The token that was given in response to <code onclick="gotoid('#create')">/api/create</code>.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">restIds</span><br><span class="field-label">required</span></td>
+                       			<td>The array of restaurant id disliked that was given in the query restaurant list.</td>
+                       		</tr>
+                       	</table>
+                        <h4>Example Request</h4>
+                        <p>POST</p>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/dislike</p>
+                        <p>{"token": "MzUxODAxOTAzNDQzNzM1MDI4NC04NDk1Y2M0ZC02ZGFiLTQ2MTktYTY1ZS03ZDFhZTpjZWUyZmQ=", "restIds": ["301490001", "301606627"]}</p>
+                        <h4>Example Result</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">200</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"success":"success"})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">400</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid restaurant id."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">401</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid token key."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">500</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Something went wrong. Please try again later."})+"</code></pre>");</script></td>
+                       		</tr>
+                       	</table>
+                        <br><br><br>
+                        <h1><a name="booking">POST api/booking</a></h1>
+						<p>The api for booking a restaurant</p>
+                        <h4>Resource URL</h4>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/booking</p>
+                        <h4>Resource Information</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">Request formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">Response formats</span></td>
+                       			<td>JSON</td>
+                       		</tr>
+                       	</table>
+                        <h4>Parameters</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label-bold">token</span><br><span class="field-label">required</span></td>
+                       			<td>The token that was given in response to <code onclick="gotoid('#create')">/api/create</code>.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">restId</span><br><span class="field-label">required</span></td>
+                       			<td>The restaurant id you want to book.</td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label-bold">type</span><br><span class="field-label">required</span></td>
+                       			<td>
+                       				<span>The type of booking. We need to use three types of value as below:</span>
+                       				<ul>
+                       					<li><b>ACTIVE: </b>when you want to book you should pass this value, because the system need to ask you some question before the system confirm booking.</li>
+                       					<li><b>CONFIRM: </b>when everything is fine and user want to book then we have to pass this value.</li>
+                       					<li><b>CANCEL: </b>This value will be used for cancel a booking.</li>
+                       				</ul>
+                       			</td>
+                       		</tr>
+                       	</table>
+                        <h4>Example Request</h4>
+                        <p>POST</p>
+                        <p>http://release-20161223.us-east-1.elasticbeanstalk.com:8080/booking</p>
+                        <p>{"token": "MzUxODAxOTAzNDQzNzM1MDI4NC04NDk1Y2M0ZC02ZGFiLTQ2MTktYTY1ZS03ZDFhZTpjZWUyZmQ=", "restId": "301490001",  "type": "ACTIVE"}</p>
+                        <h4>Example Result</h4>
+                       	<table>
+                       		<tr>
+                       			<td><span class="field-label">200</span></td>
+                       			<td>Some kind of question will response to ask more detail about your booking. E.g:<br><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"question":"What is your phone number/email address?"})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">400</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid restaurant id."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">400</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid type."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">401</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Invalid token key."})+"</code></pre>");</script></td>
+                       		</tr>
+                       		<tr>
+                       			<td><span class="field-label">500</span></td>
+                       			<td><script type="text/javascript">document.write("<pre><code>"+library.json.prettyPrint({"error":"Something went wrong. Please try again later."})+"</code></pre>");</script></td>
+                       		</tr>
+                       	</table>
+                        <br><br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    
+    function gotoid(id) {
+    	location.href = id;
+    }
+</script>
+}
